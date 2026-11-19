@@ -1,23 +1,55 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
+import { useState } from 'react';
 import './App.css'
+import Modal from './Modal';
 
 function App() {
-  let post='경기도';
+  const [title, setTitle] = useState(['경기도', '강원도', '제주도']);
+  const [clickup, setClickup] = useState([0,0,0]);
+  const [modal, setModal] = useState(false);
 
   return (
     <>
       <div className="App">
         <div className="black-nav">
-          <h4>React Blog</h4>
+          <h4 style={{color:'red', fontSize:'20px'}}>React Blog</h4>
         </div>
 
-        <h4>{post}</h4>
+        {
+          title.map((tit, i)=>
+          <div className="list" key={i}>
+            <h4 onClick={()=>{
+              setModal(!modal);
+            }}>{tit} <span onClick={()=>{
+              let copy = [...clickup];
+              copy[i] = clickup[i] +1;
+              setClickup(clickup[i] +1);
+              setClickup(copy);
+              e.stopPropagation();
+            }}>👍</span> {clickup[i]}</h4>
+            <p>11월 19일</p>
+
+            <button onClick={()=>{
+              let copy = [...title];
+              copy[0]='충청도';
+              setTitle(copy);
+            }}>제목 변경</button>
+        </div>
+      )
+    }
       </div>
+
+      <button onClick={()=>{
+        let copy = [...title];
+        copy.sort();
+        setTitle(copy);
+      }}>제목 정렬</button>
+
+      {
+        modal === true && <Modal/>
+      }
+
     </>
-  );
+  )
 }
 
 export default App
